@@ -2,12 +2,17 @@ require "base64"
 
 class AlbumsController < ApplicationController
   before_action :set_album, only: [:show, :update, :destroy]
-  before_action :get_artist
+  before_action :get_artist, unless: -> { @artist.nil? }
 
   # GET /albums
   def index
-    @albums = @artist.albums
-
+    
+    if @artist.nil?
+      @albums = Album.all
+    else
+      @albums = @artist.albums
+      
+    end
     render json: @albums
   end
 
@@ -54,7 +59,7 @@ class AlbumsController < ApplicationController
     end
     
     def get_artist
-      @artist = Artist.find(params[:id])
+      @artist = Artist.find(params[:artist_id])
     end
 
 end
