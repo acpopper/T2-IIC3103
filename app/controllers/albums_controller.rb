@@ -1,5 +1,8 @@
+require "base64"
+
 class AlbumsController < ApplicationController
   before_action :set_album, only: [:show, :update, :destroy]
+  before_action :get_artist
 
   # GET /albums
   def index
@@ -15,7 +18,8 @@ class AlbumsController < ApplicationController
 
   # POST /albums
   def create
-    @album = Album.new(album_params)
+    @album = @artist.album.new(album_params)
+    @album.id_custom = (Base64.encode64(@album.name+":"+@artist.id_custom))[0..21]
 
     if @album.save
       render json: @album, status: :created, location: @album
@@ -41,11 +45,16 @@ class AlbumsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_album
-      @album = Album.find(params[:id])
+      @album = @artist.album.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def album_params
-      params.require(:album).permit(:id_custom, :artist_id, :name, :genre, :artist, :tracks, :self)
+      params.require(:album).permit(:name, :genre)
     end
+    
+    def get_artist
+      @artist = Artist.find(params[:id])
+    end
+
 end
