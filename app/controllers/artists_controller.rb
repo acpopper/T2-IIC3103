@@ -1,3 +1,5 @@
+require "base64"
+
 class ArtistsController < ApplicationController
   before_action :set_artist, only: [:show, :update, :destroy]
 
@@ -16,6 +18,7 @@ class ArtistsController < ApplicationController
   # POST /artists
   def create
     @artist = Artist.new(artist_params)
+    @artist.id_custom = Base64.encode64(@artist.name)
 
     if @artist.save
       render json: @artist, status: :created, location: @artist
@@ -46,6 +49,6 @@ class ArtistsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def artist_params
-      params.require(:artist).permit(:id_custom, :name, :age, :albums, :tracks, :self)
+      params.require(:artist).permit(:name, :age)
     end
 end
