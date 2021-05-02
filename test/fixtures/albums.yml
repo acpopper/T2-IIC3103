@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_custom: MyString
+  artist: one
+  name: MyString
+  genre: MyString
+  artist: MyText
+  tracks: MyText
+  self: MyText
+
+two:
+  id_custom: MyString
+  artist: two
+  name: MyString
+  genre: MyString
+  artist: MyText
+  tracks: MyText
+  self: MyText
