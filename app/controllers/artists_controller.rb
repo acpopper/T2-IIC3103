@@ -2,6 +2,7 @@ require "base64"
 
 class ArtistsController < ApplicationController
   before_action :set_artist, only: [:show, :update, :destroy]
+  
 
   # GET /artists
   def index
@@ -12,13 +13,13 @@ class ArtistsController < ApplicationController
 
   # GET /artists/1
   def show
-    render json: @artist
+    render json: @artist, status: :ok
   end
 
   # POST /artists
   def create
     @artist = Artist.new(artist_params)
-    @artist.id_custom = Base64.encode64(@artist.name)
+    @artist.id_custom = Base64.encode64(artist_params[:name])
 
     if @artist.save
       render json: @artist, status: :created, location: @artist
@@ -38,6 +39,7 @@ class ArtistsController < ApplicationController
 
   # DELETE /artists/1
   def destroy
+    
     @artist.destroy
   end
 
