@@ -8,7 +8,7 @@ class ArtistsController < ApplicationController
   def index
     @artists = Artist.all
     
-    render json: @artists
+    render json: @artists.to_json(:only => [:id, :name, :age])
   end
 
   # GET /artists/1
